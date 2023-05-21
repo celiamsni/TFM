@@ -10867,7 +10867,7 @@ hr.divider-light {
 #mainNav {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   background: linear-gradient(to bottom, rgb(255 255 255 / 87%) 0%, rgb(255 255 255) 100%), url(https://us.123rf.com/450wm/katikam/katikam1702/katikam170200027/71996169-abstract-background-of-digital-components.jpg?ver=6);
-  transition: all 0.2s ease;
+  transition: all 0.5s ease;
 }
 #mainNav .navbar-brand {
   font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
