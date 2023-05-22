@@ -108,7 +108,7 @@ hr {
   margin: 1rem 0;
   color: inherit;
   border: 0;
-  border-top: 1px solid;
+  border-top: 1px solid #00000054;
   opacity: 0.25;
 }
 
@@ -2846,10 +2846,10 @@ textarea.form-control-lg {
 
 .btn-primary {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #439189;
-  --bs-btn-border-color: #69938e;
+  --bs-btn-bg: #43918961;
+  --bs-btn-border-color: #b2cfcb;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #6fa7a1;
+  --bs-btn-hover-bg: #070b12a6;
   --bs-btn-hover-border-color: #b6bb92;
   --bs-btn-focus-shadow-rgb: 246, 122, 88;
   --bs-btn-active-color: #fff;
@@ -10856,7 +10856,7 @@ hr.divider {
   height: 0.2rem;
   max-width: 3.25rem;
   margin: 1.5rem auto;
-  background-color: #f4623a;
+  background-color: #43918961;
   opacity: 1;
 }
 
