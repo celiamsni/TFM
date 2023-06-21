@@ -26,6 +26,24 @@ function setCookie(name, value, hours) {
     document.cookie = name  + value + exp + path;
 }
 
+async function httpFetch(uri, method) {
+    var auth = getCookieValue("auth");
+    var expires = getCookieValue("expires");
+
+    const response = await fetch(uri, {
+        method: method,
+        headers: {
+            'EXPIRES': expires,
+            'AUTH': auth
+        },
+        mode: 'cors',
+        cache: 'default'
+    });
+
+    const data = await response;
+    return data.json();
+}
+
 function login(){
     document.getElementById('login-form').addEventListener('submit', function(e) {
         e.preventDefault(); // Evita que el formulario se envíe automáticamente
@@ -45,15 +63,13 @@ function login(){
                 if (xhr.status === 200) {
                     setCookie('auth', xhr.getResponseHeader('auth'), 1);
                     setCookie('expires', xhr.getResponseHeader('exp'), 1);
-                }
-                response = await xhr.responseText;
-                var status = response.status;
-                if(status === 200){
+                    response = await httpFetch("http://api.local/alumno", "GET");
                     var nombre = response.nombre;
                     var fotoPerfil = response.fotoPerfil;
                     fadeOutEffect(document.getElementById('login-container'), 800);
                 } else {
                     alert("No ha sido posible verificar tus credenciales.");
+                    response = null;
                 }
             }
         };
@@ -64,23 +80,7 @@ function login(){
   });
 }
 
-async function httpFetch(uri, meth) {
-    var auth = getCookieValue("auth");
-    var expires = getCookieValue("expires");
 
-    const response = await fetch(uri, {
-        method: meth,
-        headers: {
-            'EXPIRES': expires,
-            'AUTH': auth
-        },
-        mode: 'cors',
-        cache: 'default'
-    });
-
-    const data = await response;
-    return data.json();
-}
 
 async function load(type){
     var result = await httpFetch('http://api.local'+type, 'GET');
