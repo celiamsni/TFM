@@ -10929,7 +10929,7 @@ hr.divider-light {
 header.masthead {
   padding-top: 10rem;
   padding-bottom: calc(10rem - 4.5rem);
-  background: linear-gradient(to bottom, rgb(14 24 10 / 38%) 0%, rgb(1 4 3 / 73%) 100%), url(https://github.com/celiamsni/TFM/blob/main/assets/img/header_bg.gif?raw=true);
+  background: linear-gradient(to bottom, rgb(14 24 10 / 38%) 0%, rgb(1 4 3 / 73%) 100%), url(../assets/img/bg.png);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -10960,6 +10960,7 @@ header.masthead h1, header.masthead .h1 {
 
 #services{
   background: linear-gradient(to bottom, rgb(255 255 255 / 87%) 0%, rgb(255 255 255) 100%), url(https://us.123rf.com/450wm/katikam/katikam1702/katikam170200027/71996169-abstract-background-of-digital-components.jpg?ver=6);;
+  padding-bottom: 2rem;
 }
 
 #portfolio .container-fluid, #portfolio .container-sm, #portfolio .container-md, #portfolio .container-lg, #portfolio .container-xl, #portfolio .container-xxl {

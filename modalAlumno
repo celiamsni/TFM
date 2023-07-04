@@ -1,0 +1,47 @@
+            <div id="modal-container">
+                <div id="modal-body">
+                    <div id="modal-header">
+                        <div id="modal-header-content">
+                            <img id="modal-camera" class="modal-icon" src="/assets/img/modal/camera.svg" alt="Selecciona una imagen" title="Subir imagen con solución" onclick="seleccionarArchivos()">
+                            <img class="modal-icon" src="/assets/img/modal/libreta.png" alt="Abrir anotaciones" title="Abrir anotaciones" onclick="toggleCanvas()">
+                            <img class="modal-icon" src="/assets/img/modal/manual.png" alt="Consultar manual" title="Consultar manual" onclick="">
+                        </div>
+                        <div id="close-modal">
+                            <p onclick="toggleModal('modal-window')">X</p>
+                        </div>
+                    </div>
+                    <div id="modal-content">
+                        
+                        <style>
+                            #problem-trigger{
+                                text-align: right;
+                                padding: 1rem;
+                            }
+                        </style>
+                        <div id="problem-trigger">
+                            <img class="modal-icon" src="/assets/img/modal/manual.png" alt="Consultar manual" title="Consultar manual" onclick="">
+                        </div>
+                        <div id="canvas-container" style="display: none">
+                            <div id="canvas-header">
+                                <button class="btn btn-primary btn-xl" onclick="fill('white')">Limpiar lienzo</button>
+                            </div>
+                            <div id="canvas-body">
+                                <canvas id="modal-canvas" class="canvas" width="1500px" height="900px"></canvas>
+                            </div>
+                            <div id="canvas-footer">
+                                <div>
+                                    <button class="btn btn-primary btn-xl" onclick="setPencilColor('black')">Lapicero</button>
+                                    <button class="btn btn-primary btn-xl" onclick="setPencilColor('white')">Borrador</button>
+                                    <span id="brush-sice"><input type="range" min="1" max="20" value="1" oninput="setBrushSize(event.target.value)"></input></span>
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary btn-xl" onclick="saveImage()">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="modal-footer">
+
+                    </div>
+                </div>
+            </div>
