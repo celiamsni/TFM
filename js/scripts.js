@@ -59,26 +59,3 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 
-function seleccionarArchivos() {
-    // Crea un elemento input de tipo "file"
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.multiple = true; // Permite seleccionar múltiples archivos
-
-    // Añade un evento para manejar la selección de archivos
-    input.onchange = function(e) {
-      var files = e.target.files; // Obtiene los archivos seleccionados
-      console.log(files); // Puedes hacer algo con los archivos aquí
-
-      // Aquí puedes llamar a otra función y pasarle los archivos como parámetro
-      procesarArchivos(files);
-    };
-
-    // Haz clic en el elemento de entrada de archivos oculto
-    input.click();
-  }
-
-  function procesarArchivos(files) {
-    // Aquí puedes hacer algo con los archivos seleccionados
-    console.log('Archivos seleccionados:', files);
-  }

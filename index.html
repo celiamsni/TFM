@@ -78,6 +78,44 @@
                 animation: spin 1s linear infinite;
             }
 
+            .username {
+                font-weight: 700;
+                font-size: 0.9rem;
+                padding: 0 1rem;
+                display: block;
+                color: rgba(255, 255, 255, 0.7);
+            }
+
+            .navbar-shrink .username {
+                color: #212529;
+            }
+
+            .logout {
+                cursor: pointer;
+                text-decoration: none;
+                color: #979ca1;
+            }
+
+            .navbar-shrink .logout {
+                color: #6c757d;
+            }
+
+            .logout:hover {
+                color: #f4623a;
+            }
+
+            @media (max-width: 991px) {
+                .username {
+                    padding: 0;
+                    color: #212529;
+                    padding: 0.75rem 0;
+                }
+
+                .logout {
+                    color: #6c757d;
+                }
+            }
+
             .masthead .countdown {
                 font-size: 3rem;
                 font-family: monospace;
@@ -167,6 +205,17 @@
 
             #modal-content{
                 width: 100%;
+            }
+
+            #modal-footer{
+                display: flex;
+                flex-direction: row-reverse;
+                padding: 1rem;
+            }
+
+            #problem-trigger {
+                text-align: right;
+                padding: 1rem;
             }
 
             #canvas-container {
@@ -274,40 +323,25 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
         <div id="modal-window" style="display: none;" content="">
         </div>
 
 
-        <!-- Navigation-->
+        <!-- Navigation -->
         <nav id="mainNav" class="navbar navbar-expand-lg navbar-light fixed-top py-3">
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="#page-top">Scape Earth</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <ul id="mainmenu" class="navbar-nav ms-auto my-2 my-lg-0">
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Masthead-->
-        <header class="masthead">
-            <div class="container px-4 px-lg-5 h-100">
-                <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
-                    <div class="col-lg-8 align-self-end">
-                        <h1 class="text-white font-weight-bold">Scape Earth</h1>
-                        <hr class="divider" />
-                    </div>
-                    <div class="col-lg-8 align-self-baseline">
-                        <p class="text-white-75 mb-5">A la tierra le quedan:</p>
-                        <p class="text-white-75 mb-5 countdown" target-date="2023-07-01T00:00:00"></p>
-                        <a class="btn btn-primary btn-xl" href="#portfolio">Seleccionar misión</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <!-- About-->
+
+        <!-- About 
         <section class="page-section bg-primary" id="about">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -329,12 +363,7 @@
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- Services-->
-        <section class="page-section" id="services">
-        </section>
-        <!-- Portfolio-->
-        <div id="portfolio"></div>
+        </section>-->
 
         <!-- Footer-->
         <footer class="bg-light py-5">
