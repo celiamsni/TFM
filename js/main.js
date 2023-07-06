@@ -4,6 +4,18 @@ function driveImage(id){
     return 'https://drive.google.com/uc?export=download&id=' + id;
 }
 
+function preloadAnimation(animacion){
+
+    animacion.forEach(frame => {
+        var img = new Image();
+        const src = driveImage(frame.imagen);
+        img.src = src;
+        const preloader =  document.getElementById("img-preloader");
+        preloader.appendChild(img);
+    });
+
+}
+
 function emptyModal(){
     document.getElementById("modal-header-content").innerHTML = '';
     document.getElementById("modal-content").innerHTML = '';
@@ -792,6 +804,10 @@ class Alumno extends Usuario{
             
             creaBotonSiguiente();
 
+            toggleModal();
+
+            preloadAnimation(animacion);
+
             this.reproduceFrame(null, animacion, 0);
 
         }
@@ -822,8 +838,6 @@ class Alumno extends Usuario{
             siguiente.addEventListener("click", function () {
                 self.reproduceFrame(actividad, animacion, numero);
             });
-
-            toggleModal();
     
         } else {
 
@@ -1045,6 +1059,8 @@ class Bloque{
 
             
             creaBotonSiguiente();
+
+            preloadAnimation(animacion);
 
             this.reproduceFrame(null, animacion, 0);
 
