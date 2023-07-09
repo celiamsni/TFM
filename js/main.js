@@ -1075,7 +1075,7 @@ class Bloque{
 
             const bloque = this;
 
-            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
+            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.solucion, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
 
             ventana.style.display = "block";
         }
@@ -1083,22 +1083,30 @@ class Bloque{
     }
 
     iniciaSiguienteActividad(){
+
+        console.log(this._progreso);
+        console.log(this._actividades.length);
+
         if(this._progreso >= this._actividades.length){
-            return null;
+
+            toggleModal();
+
         } else {
-            this._actividades[this._progreso];
+
+            var actividad = this._actividades[this._progreso];
+
+            const bloque = this;
+
+            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.solucion, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
         }
+
     }
 
     increaseProgreso(){
+
         this._progreso++;
+
     }
-
-
-
-    
-
-
 
 }
 
@@ -1112,6 +1120,8 @@ class Actividad{
 
     _imagenProblema;
 
+    _solucion;
+
     _fechaBonus;
 
     _fechaLimite;
@@ -1122,9 +1132,9 @@ class Actividad{
 
     _escenasFin;
 
-    _siguienteActividad;
+    _bloque;
 
-    constructor(codigo, nombre, imagenFondo, fechaBonus, fechaLimite, manual, imagenProblema, escenasInicio, escenasFin, bloque) {
+    constructor(codigo, nombre, imagenFondo, fechaBonus, fechaLimite, manual, imagenProblema, solucion, escenasInicio, escenasFin, bloque) {
         this._codigo = codigo;
         this._nombre = nombre;
         this._imagenFondo = imagenFondo;
@@ -1132,9 +1142,10 @@ class Actividad{
         this._fechaLimite = fechaLimite;
         this._manual = manual;
         this._imagenProblema = imagenProblema;
+        this._solucion = solucion;
         this._escenasInicio = escenasInicio;
         this._escenasFin = escenasFin;
-        this._siguienteActividad = bloque.iniciaSiguienteActividad();
+        this._bloque = bloque;
 
         this.reproduceAnimacionInicio();
 
@@ -1142,31 +1153,15 @@ class Actividad{
 
     reproduceAnimacionInicio(){
 
-        if(this._escenasInicio.length > 0){
+        const escenas = this._escenasInicio.length ?? 0;
+
+        if(escenas > 0){
 
             emptyModal();
-
-            toggleModal();
 
             preloadAnimation(this._escenasInicio);
 
             this.reproduceFrame(this._escenasInicio, 0, false);
-
-        }
-
-    }
-
-    reproduceAnimacionFin(){
-
-        if(this._escenasFin.length > 0){
-
-            emptyModal();
-
-            toggleModal();
-
-            preloadAnimation(this._escenasFin);
-
-            this.reproduceFrame(this._escenasFin, 0, true);
 
         }
 
@@ -1205,7 +1200,18 @@ class Actividad{
             
             const siguiente = document.getElementById("siguiente");
 
-            if(numero == animacion.length) siguiente.textContent = "Iniciar misión";
+            if(numero == animacion.length){
+                if (esFinal === true){
+                    if(this._bloque._progreso < this._bloque._actividades.length){
+                        siguiente.textContent = "Siguiente misión";
+                    } else {
+                        siguiente.textContent = "Volver a la nave";
+                    }
+                } else {
+                    siguiente.textContent = "Iniciar misión";
+                }
+                    
+            } 
 
             const self = this;
             siguiente.addEventListener("click", function () {
@@ -1221,11 +1227,9 @@ class Actividad{
     
             if (esFinal === true){
 
-                if(this_.siguienteActividad !== null){
-                
-                    this_bloque.increaseProgreso();
+                if(this._siguienteActividad !== null){
 
-                    this_bloque.iniciaSiguienteActividad();
+                    this._bloque.iniciaSiguienteActividad();
 
                 } else {
 
@@ -1309,6 +1313,55 @@ class Actividad{
         problemTrigger.appendChild(problemTriggerImg);
 
         modalContent.appendChild(problemTrigger);
+
+        const modalFooter = document.getElementById("modal-footer");
+
+        const solutionDiv = document.createElement("div");
+        solutionDiv.id="solution-div";
+
+        const solution = document.createElement("input");
+        solution.id="solution";
+        solution.type="text";
+        solution.placeholder="Solución";
+        solutionDiv.appendChild(solution);
+
+        const solutionButton = document.createElement("button");
+        solutionButton.innerText = "Enviar";
+        solutionButton.addEventListener('click', this.reproduceAnimacionFin.bind(this));
+        
+        solutionDiv.appendChild(solutionButton);
+
+        modalFooter.appendChild(solutionDiv);
+
+    }
+
+    reproduceAnimacionFin(){
+
+        const solucion = document.getElementById("solution").value;
+
+        if(solucion == this._solucion){ // Se ha acertado la solución
+
+            this._bloque.increaseProgreso();
+
+            const escenas = (this._escenasFin && this._escenasFin.length) ?? 0;
+
+            if(escenas > 0){ //Hay escenas de fin
+
+                emptyModal();
+    
+                preloadAnimation(this._escenasFin);
+    
+                this.reproduceFrame(this._escenasFin, 0, true);
+    
+            } else { // No hay animación de fin
+
+                this._bloque.iniciaSiguienteActividad();
+
+            }
+
+        } else { // No se ha acertado la solución
+
+        }
 
     }
 
