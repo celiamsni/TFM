@@ -1077,8 +1077,7 @@ class Bloque{
 
             emptyModal();
 
-            
-            creaBotonSiguiente();
+            toggleModal();
 
             preloadAnimation(animacion);
 
@@ -1098,7 +1097,22 @@ class Bloque{
             const audio = frame.audio;
     
             const modalBody =  document.getElementById("modal-body");
-            modalBody.style.background = 'url('+background+') no-repeat center center / cover';
+            modalBody.style.background = 'url(' + background + ') no-repeat center center / cover';
+
+            const content = document.getElementById("modal-footer");
+
+            content.innerHTML = '';
+
+            const text = document.createElement("p");
+            text.id = "scene-text";
+            text.innerText = texto;
+
+            const contenedorTexto = document.createElement("div");
+            contenedorTexto.id = "text-container";
+
+            contenedorTexto.appendChild(text);
+
+            content.appendChild(contenedorTexto);
     
             numero++;
 
@@ -1106,7 +1120,7 @@ class Bloque{
             
             const siguiente = document.getElementById("siguiente");
 
-            if(numero == animacion.length) siguiente.textContent = "Comenzar misión";
+            if(numero == animacion.length) siguiente.textContent = "Iniciar misión";
 
             const self = this;
             siguiente.addEventListener("click", function () {
