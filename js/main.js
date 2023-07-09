@@ -20,12 +20,12 @@ function emptyModal(){
     document.getElementById("modal-header-content").innerHTML = '';
     document.getElementById("modal-content").innerHTML = '';
     document.getElementById("modal-footer").innerHTML = '';
+    document.getElementById("canvas-container").style.display = 'none';
 }
 
 function creaBotonSiguiente(){
 
     const footer = document.getElementById("modal-footer");
-    footer.innerHTML = "";
     const siguiente = document.createElement('button');
     siguiente.setAttribute("class", "btn btn-primary btn-xl");
     siguiente.id = "siguiente";
@@ -778,7 +778,7 @@ class Alumno extends Usuario{
 
         canvasContainer.appendChild(canvasFooter);
 
-        modalContent.appendChild(canvasContainer);
+        
 
         modalBody.appendChild(modalContent);
 
@@ -788,8 +788,12 @@ class Alumno extends Usuario{
 
         modalBody.appendChild(modalFooter);
 
+        modalBody.appendChild(canvasContainer);
+
         modalContainer.appendChild(modalBody);
         modalWindow.appendChild(modalContainer);
+
+        
 
         const script = document.createElement('script');
         script.src = 'js/canvas.js';
@@ -801,8 +805,7 @@ class Alumno extends Usuario{
 
         if(animacion.length > 0){
 
-            
-            creaBotonSiguiente();
+            emptyModal();
 
             toggleModal();
 
@@ -825,6 +828,21 @@ class Alumno extends Usuario{
     
             const modalBody =  document.getElementById("modal-body");
             modalBody.style.background = 'url(' + background + ') no-repeat center center / cover';
+
+            const content = document.getElementById("modal-footer");
+
+            content.innerHTML = '';
+
+            const text = document.createElement("p");
+            text.id = "scene-text";
+            text.innerText = texto;
+
+            const contenedorTexto = document.createElement("div");
+            contenedorTexto.id = "text-container";
+
+            contenedorTexto.appendChild(text);
+
+            content.appendChild(contenedorTexto);
     
             numero++;
 
@@ -1047,22 +1065,24 @@ class Bloque{
             //Cargar los datos de este bloque en la ventana modal
             const actividad = this._actividades[this._progreso];
             const animacion = actividad.escenasIntroductorias;
-            this.reproduceAnimacion(animacion);
+            this.reproduceAnimacion(animacion, actividad);
             ventana.style.display = "block";
         }
           
     }
 
-    reproduceAnimacion(animacion){
+    reproduceAnimacion(animacion, actividad){
 
         if(animacion.length > 0){
+
+            emptyModal();
 
             
             creaBotonSiguiente();
 
             preloadAnimation(animacion);
 
-            this.reproduceFrame(null, animacion, 0);
+            this.reproduceFrame(actividad, animacion, 0);
 
         }
 
@@ -1122,7 +1142,7 @@ class Bloque{
 
         const modalBody =  document.getElementById("modal-body");
 
-        modalBody.style.background = 'url('+background+')';
+        modalBody.style.background = 'url('+background+') no-repeat center center / cover';
         
         const modalHeaderContent =  document.getElementById("modal-header-content");
 
