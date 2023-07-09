@@ -18,6 +18,7 @@ function preloadAnimation(animacion){
 
 function emptyModal(){
     document.getElementById("modal-header-content").innerHTML = '';
+    document.getElementById("modal-header-title").innerHTML = '';
     document.getElementById("modal-content").innerHTML = '';
     document.getElementById("modal-footer").innerHTML = '';
     document.getElementById("canvas-container").style.display = 'none';
@@ -676,6 +677,12 @@ class Alumno extends Usuario{
    
         modalHeader.appendChild(modalHeaderContent);
 
+        // Crea el elemento <div> con el id "modal-title"
+        const modalHeaderTitleDiv = document.createElement("div");
+        modalHeaderTitleDiv.setAttribute("id", "modal-header-title");
+
+        modalHeader.appendChild(modalHeaderTitleDiv);
+
         // Crear el elemento <div> con el id "close-modal"
         const closeModal = document.createElement("div");
         closeModal.setAttribute("id", "close-modal");
@@ -1063,31 +1070,109 @@ class Bloque{
 
         if (ventana.style.display === "none") {
             //Cargar los datos de este bloque en la ventana modal
-            const actividad = this._actividades[this._progreso];
-            const animacion = actividad.escenasIntroductorias;
-            this.reproduceAnimacion(animacion, actividad);
+
+            var actividad = this._actividades[this._progreso];
+
+            const bloque = this;
+
+            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
+
             ventana.style.display = "block";
         }
           
     }
 
-    reproduceAnimacion(animacion, actividad){
+    iniciaSiguienteActividad(){
+        if(this._progreso >= this._actividades.length){
+            return null;
+        } else {
+            this._actividades[this._progreso];
+        }
+    }
 
-        if(animacion.length > 0){
+    increaseProgreso(){
+        this._progreso++;
+    }
+
+
+
+    
+
+
+
+}
+
+class Actividad{
+
+    _codigo;
+
+    _nombre;
+
+    _imagenFondo;
+
+    _imagenProblema;
+
+    _fechaBonus;
+
+    _fechaLimite;
+
+    _manual;
+
+    _escenasInicio;
+
+    _escenasFin;
+
+    _siguienteActividad;
+
+    constructor(codigo, nombre, imagenFondo, fechaBonus, fechaLimite, manual, imagenProblema, escenasInicio, escenasFin, bloque) {
+        this._codigo = codigo;
+        this._nombre = nombre;
+        this._imagenFondo = imagenFondo;
+        this._fechaBonus = fechaBonus;
+        this._fechaLimite = fechaLimite;
+        this._manual = manual;
+        this._imagenProblema = imagenProblema;
+        this._escenasInicio = escenasInicio;
+        this._escenasFin = escenasFin;
+        this._siguienteActividad = bloque.iniciaSiguienteActividad();
+
+        this.reproduceAnimacionInicio();
+
+    }
+
+    reproduceAnimacionInicio(){
+
+        if(this._escenasInicio.length > 0){
 
             emptyModal();
 
             toggleModal();
 
-            preloadAnimation(animacion);
+            preloadAnimation(this._escenasInicio);
 
-            this.reproduceFrame(actividad, animacion, 0);
+            this.reproduceFrame(this._escenasInicio, 0, false);
 
         }
 
     }
 
-    reproduceFrame(actividad, animacion, numero){
+    reproduceAnimacionFin(){
+
+        if(this._escenasFin.length > 0){
+
+            emptyModal();
+
+            toggleModal();
+
+            preloadAnimation(this._escenasFin);
+
+            this.reproduceFrame(this._escenasFin, 0, true);
+
+        }
+
+    }
+
+    reproduceFrame(animacion, numero, esFinal){
 
         if(numero < animacion.length){
     
@@ -1124,7 +1209,7 @@ class Bloque{
 
             const self = this;
             siguiente.addEventListener("click", function () {
-                self.reproduceFrame(actividad, animacion, numero);
+                self.reproduceFrame(animacion, numero, esFinal);
             });
     
         } else {
@@ -1134,13 +1219,22 @@ class Bloque{
             const footer = document.getElementById("modal-footer");
             footer.innerHTML = "";
     
-            if (actividad === null){
+            if (esFinal === true){
 
-                toggleModal();
+                if(this_.siguienteActividad !== null){
+                
+                    this_bloque.increaseProgreso();
+
+                    this_bloque.iniciaSiguienteActividad();
+
+                } else {
+
+                    toggleModal();
+                }
 
             } else {
 
-                this.iniciaActividad(actividad);
+                this.iniciaActividad();
 
             }
     
@@ -1148,11 +1242,11 @@ class Bloque{
     
     }
 
-    iniciaActividad(actividad){
+    iniciaActividad(){
 
         //-- Iniciar bloques
 
-        const background = driveImage(actividad.imagenFondo);
+        const background = driveImage(this._imagenFondo);
 
         const modalBody =  document.getElementById("modal-body");
 
@@ -1190,6 +1284,12 @@ class Bloque{
 
         const modalContent = document.getElementById("modal-content");
 
+        const modalHeaderTitleDiv = document.getElementById("modal-header-title");
+        const modalHeaderTitle = document.createElement("h2");
+        modalHeaderTitle.setAttribute("id", "modal-title");
+        modalHeaderTitle.innerText = this._nombre;
+        modalHeaderTitleDiv.appendChild(modalHeaderTitle);
+
         // Crear el elemento <div> con el id "problem-trigger"
         const problemTrigger = document.createElement("div");
         problemTrigger.setAttribute("id", "problem-trigger");
@@ -1202,7 +1302,7 @@ class Bloque{
         problemTriggerImg.setAttribute("title", "Consultar problema");
         problemTriggerImg.addEventListener('click', function(){
 
-            window.open(driveImage(actividad.imagenProblema) , '_blank');
+            window.open(driveImage(this._imagenProblema) , '_blank');
 
         });
 
@@ -1210,37 +1310,6 @@ class Bloque{
 
         modalContent.appendChild(problemTrigger);
 
-    }
-
-}
-
-class Actividad{
-
-    _codigo;
-
-    _nombre;
-
-    _imagenFondo;
-
-    _imagenProblema;
-
-    _fechaBonus;
-
-    _fechaLimite;
-
-    _manual;
-
-    _escenas; //EscenasIntroductorias
-
-    constructor(codigo, nombre, imagenFondo, fechaBonus, fechaLimite, manual, imagenProblema) {
-        this._codigo = codigo;
-        this._nombre = nombre;
-        this._imagenFondo = imagenFondo;
-        this._fechaBonus = fechaBonus;
-        this._fechaLimite = fechaLimite;
-        this._manual = manual;
-        this._imagenProblema = imagenProblema;
-        _escenas = [];
     }
 
 }
