@@ -874,6 +874,11 @@ class Alumno extends Usuario{
             siguiente.addEventListener("click", function () {
                 self.reproduceFrame(actividad, animacion, numero);
             });
+
+            var audioX = frame.audio ?? "";
+            if (audioX != "") {
+                sound(frame.audio);
+            }
     
         } else {
 
