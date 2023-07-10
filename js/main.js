@@ -1,7 +1,18 @@
 var instancia = null;
 
+var audio;
+
 function driveImage(id){
     return 'https://drive.google.com/uc?export=download&id=' + id;
+}
+
+function sound(path) {
+    path = "https://drive.google.com/uc?export=download&id=" + path;;
+    if(audio!=null){
+        audio.stop();
+    }
+    audio = new Audio(path);
+    audio.play();
 }
 
 function preloadAnimation(animacion){
@@ -1217,6 +1228,11 @@ class Actividad{
             siguiente.addEventListener("click", function () {
                 self.reproduceFrame(animacion, numero, esFinal);
             });
+
+            var audioX = frame.audio ?? "";
+            if (audioX != "") {
+                sound(frame.audio);
+            }
     
         } else {
 
@@ -1243,6 +1259,8 @@ class Actividad{
             }
     
         }
+
+        
     
     }
 
