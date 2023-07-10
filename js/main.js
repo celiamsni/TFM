@@ -883,6 +883,7 @@ class Alumno extends Usuario{
 
             const self = this;
             siguiente.addEventListener("click", function () {
+                stopAudio();
                 self.reproduceFrame(actividad, animacion, numero);
             });
 
@@ -1242,6 +1243,7 @@ class Actividad{
 
             const self = this;
             siguiente.addEventListener("click", function () {
+                stopAudio();
                 self.reproduceFrame(animacion, numero, esFinal);
             });
 
