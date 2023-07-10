@@ -9,10 +9,16 @@ function driveImage(id){
 function sound(path) {
     path = "https://drive.google.com/uc?export=download&id=" + path;;
     if(audio!=null){
-        audio.stop();
+        audio.pause();
     }
     audio = new Audio(path);
     audio.play();
+}
+
+function stopAudio(){
+    if(audio!=null){
+        audio.pause();
+    }
 }
 
 function preloadAnimation(animacion){
@@ -33,6 +39,11 @@ function emptyModal(){
     document.getElementById("modal-content").innerHTML = '';
     document.getElementById("modal-footer").innerHTML = '';
     document.getElementById("canvas-container").style.display = 'none';
+}
+
+function closeModal(){
+    stopAudio();
+    document.getElementById("modal-window").style.display = 'none';
 }
 
 function creaBotonSiguiente(){
@@ -700,7 +711,7 @@ class Alumno extends Usuario{
 
         // Crear el elemento <p> dentro de "close-modal"
         const closeParagraph = document.createElement("p");
-        closeParagraph.setAttribute("onclick", "toggleModal('modal-window')");
+        closeParagraph.setAttribute("onclick", "closeModal()");
         closeParagraph.textContent = "X";
         closeModal.appendChild(closeParagraph);
 
@@ -886,7 +897,7 @@ class Alumno extends Usuario{
     
             if (actividad === null){
 
-                toggleModal();
+                closeModal();
 
             } else {
 
@@ -1105,7 +1116,7 @@ class Bloque{
 
         if(this._progreso >= this._actividades.length){
 
-            toggleModal();
+            closeModal();
 
         } else {
 
@@ -1254,7 +1265,7 @@ class Actividad{
 
                 } else {
 
-                    toggleModal();
+                    closeModal();
                 }
 
             } else {
