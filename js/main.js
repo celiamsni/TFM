@@ -10,6 +10,7 @@ function sound(path) {
     path = "https://drive.google.com/uc?export=download&id=" + path;;
     if(audio!=null){
         audio.pause();
+        audio = null;
     }
     audio = new Audio(path);
     audio.play();
@@ -18,6 +19,7 @@ function sound(path) {
 function stopAudio(){
     if(audio!=null){
         audio.pause();
+        audio = null;
     }
 }
 
@@ -889,7 +891,7 @@ class Alumno extends Usuario{
 
             var audioX = frame.audio ?? "";
             if (audioX != "") {
-                sound(frame.audio);
+                sound(audioX);
             }
     
         } else {
@@ -1103,7 +1105,7 @@ class Bloque{
 
             const bloque = this;
 
-            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.solucion, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
+            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.solucion, actividad.audio, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
 
             ventana.style.display = "block";
         }
@@ -1125,7 +1127,7 @@ class Bloque{
 
             const bloque = this;
 
-            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.solucion, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
+            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.solucion, actividad.audio, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
         }
 
     }
@@ -1150,6 +1152,8 @@ class Actividad{
 
     _solucion;
 
+    _audio;
+
     _fechaBonus;
 
     _fechaLimite;
@@ -1162,7 +1166,7 @@ class Actividad{
 
     _bloque;
 
-    constructor(codigo, nombre, imagenFondo, fechaBonus, fechaLimite, manual, imagenProblema, solucion, escenasInicio, escenasFin, bloque) {
+    constructor(codigo, nombre, imagenFondo, fechaBonus, fechaLimite, manual, imagenProblema, solucion, audio, escenasInicio, escenasFin, bloque) {
         this._codigo = codigo;
         this._nombre = nombre;
         this._imagenFondo = imagenFondo;
@@ -1174,6 +1178,7 @@ class Actividad{
         this._escenasInicio = escenasInicio;
         this._escenasFin = escenasFin;
         this._bloque = bloque;
+        this._audio = audio;
 
         this.reproduceAnimacionInicio();
 
@@ -1249,7 +1254,7 @@ class Actividad{
 
             var audioX = frame.audio ?? "";
             if (audioX != "") {
-                sound(frame.audio);
+                sound(audioX);
             }
     
         } else {
@@ -1368,6 +1373,11 @@ class Actividad{
         solutionDiv.appendChild(solutionButton);
 
         modalFooter.appendChild(solutionDiv);
+
+        var audioX = this._audio ?? "";
+        if (audioX != "") {
+            sound(audioX);
+        }
 
     }
 
