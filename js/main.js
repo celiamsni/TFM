@@ -238,10 +238,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-function countdown(countdowns){
-    // Recorrer todos los elementos y generar la cuenta regresiva
-    for (var i = 0; i < countdowns.length; i++) {
-    var countdown = countdowns[i];
+function countdown(countdown){
+        
     var targetDate = countdown.getAttribute("target-date");
 
     // Convertir la fecha objetivo en milisegundos
@@ -264,7 +262,7 @@ function countdown(countdowns){
         // Actualizar el contenido del elemento con la cuenta regresiva
         countdown.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
     }, 1000);
-    }
+    
 }
 
 function toggleCanvas(){
@@ -446,9 +444,9 @@ class Alumno extends Usuario{
         this.innitBloques(bloques);
 
         // Obtener todos los elementos con la clase 'countdown'
-        var countdowns = document.getElementsByClassName("countdown");
-        if(countdowns!=null) {
-            countdown(countdowns);
+        var count = document.getElementById("main-countdown");
+        if(count!=null) {
+            countdown(count);
         }
     }
 
@@ -494,6 +492,7 @@ class Alumno extends Usuario{
         // Crear el segundo <p> con la clase "text-white-75 mb-5 countdown" y el atributo "target-date"
         var paragraph2 = document.createElement('p');
         paragraph2.className = 'text-white-75 mb-5 countdown';
+        paragraph2.id = "main-countdown";
         paragraph2.setAttribute('target-date', this._tiempoLimite);
 
         // Crear el elemento <a> con las clases "btn btn-primary btn-xl" y el atributo "href"
@@ -1105,7 +1104,7 @@ class Bloque{
 
             const bloque = this;
 
-            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.solucion, actividad.audio, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
+            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.enunciado, actividad.solucion, actividad.audio, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
 
             ventana.style.display = "block";
         }
@@ -1127,7 +1126,7 @@ class Bloque{
 
             const bloque = this;
 
-            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.solucion, actividad.audio, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
+            actividad = new Actividad(actividad.codigo, actividad.nombre, actividad.imagenFondo, actividad.fechaBonus, actividad.fechaLimite, actividad.manual, actividad.imagenProblema, actividad.enunciado, actividad.solucion, actividad.audio, actividad.escenasIntroductorias, actividad.escenasFinales, bloque);
         }
 
     }
@@ -1150,6 +1149,8 @@ class Actividad{
 
     _imagenProblema;
 
+    _enunciado;
+
     _solucion;
 
     _audio;
@@ -1166,7 +1167,7 @@ class Actividad{
 
     _bloque;
 
-    constructor(codigo, nombre, imagenFondo, fechaBonus, fechaLimite, manual, imagenProblema, solucion, audio, escenasInicio, escenasFin, bloque) {
+    constructor(codigo, nombre, imagenFondo, fechaBonus, fechaLimite, manual, imagenProblema, enunciado, solucion, audio, escenasInicio, escenasFin, bloque) {
         this._codigo = codigo;
         this._nombre = nombre;
         this._imagenFondo = imagenFondo;
@@ -1174,6 +1175,7 @@ class Actividad{
         this._fechaLimite = fechaLimite;
         this._manual = manual;
         this._imagenProblema = imagenProblema;
+        this._enunciado = enunciado;
         this._solucion = solucion;
         this._escenasInicio = escenasInicio;
         this._escenasFin = escenasFin;
@@ -1357,22 +1359,62 @@ class Actividad{
 
         const modalFooter = document.getElementById("modal-footer");
 
+        const timersDiv = document.createElement("div");
+        timersDiv.id="timers-div";
+
+        const timerBonus = document.createElement("p");
+        timerBonus.setAttribute('target-date', this._fechaBonus);
+        timerBonus.id = "timer-bonus";
+        
+        timersDiv.appendChild(timerBonus);
+
+        const timerLimite = document.createElement("p");
+        timerLimite.setAttribute('target-date', this._fechaLimite);
+        timerLimite.id = "timer-limite";
+
+        timersDiv.appendChild(timerLimite);
+
+
+        const enunciadoDiv = document.createElement("div");
+        enunciadoDiv.id = "text-container";
+
+        const enunciado = document.createElement("p");
+        enunciado.innerText = this._enunciado;
+
+        enunciadoDiv.appendChild(enunciado);
+
+        modalFooter.appendChild(enunciadoDiv);
+
+
         const solutionDiv = document.createElement("div");
         solutionDiv.id="solution-div";
+
+        solutionDiv.appendChild(timersDiv);
+
+        const inputDiv = document.createElement("div");
+        inputDiv.id="input-div";
 
         const solution = document.createElement("input");
         solution.id="solution";
         solution.type="text";
         solution.placeholder="Solución";
-        solutionDiv.appendChild(solution);
+        
 
         const solutionButton = document.createElement("button");
         solutionButton.innerText = "Enviar";
         solutionButton.addEventListener('click', this.reproduceAnimacionFin.bind(this));
         
-        solutionDiv.appendChild(solutionButton);
+        inputDiv.appendChild(solution);
+
+        inputDiv.appendChild(solutionButton);
+
+        solutionDiv.appendChild(inputDiv);
+
 
         modalFooter.appendChild(solutionDiv);
+
+        countdown(document.getElementById("timer-bonus"));
+        countdown(document.getElementById("timer-limite"));
 
         var audioX = this._audio ?? "";
         if (audioX != "") {
