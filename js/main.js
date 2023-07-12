@@ -274,6 +274,15 @@ function toggleCanvas(){
     }
 }
 
+function toggleProblem(){
+    var ventana = document.getElementById("problem-container");
+    if (ventana.style.display === "none") {
+      ventana.style.display = "block";
+    } else {
+      ventana.style.display = "none";
+    }
+}
+
 function toggleModal(bloque) {
   var ventana = document.getElementById("modal-window");
   if (ventana.style.display === "none") {
@@ -820,6 +829,22 @@ class Alumno extends Usuario{
 
         modalBody.appendChild(canvasContainer);
 
+
+
+        // Crea la ventana modal para el problema
+        const problemContainer = document.createElement("div");
+        problemContainer.setAttribute("id", "problem-container");
+        problemContainer.style.display = "none";
+
+        const problemImage = document.createElement("img");
+        problemImage.id = "problem-image";
+
+        problemContainer.appendChild(problemImage);
+
+        modalBody.appendChild(problemContainer);
+
+
+
         modalContainer.appendChild(modalBody);
         modalWindow.appendChild(modalContainer);
 
@@ -1340,6 +1365,9 @@ class Actividad{
         // Crear el elemento <div> con el id "problem-trigger"
         const problemTrigger = document.createElement("div");
         problemTrigger.setAttribute("id", "problem-trigger");
+        problemTrigger.setAttribute("onclick", "toggleProblem()");
+
+        document.getElementById("problem-image").setAttribute("src", "https://drive.google.com/uc?export=download&id=" + this._imagenProblema);
 
         // Crear la imagen dentro de "problem-trigger"
         const problemTriggerImg = document.createElement("img");
@@ -1347,11 +1375,6 @@ class Actividad{
         problemTriggerImg.setAttribute("src", "/assets/img/modal/manual.png");
         problemTriggerImg.setAttribute("alt", "Consultar problema");
         problemTriggerImg.setAttribute("title", "Consultar problema");
-        problemTriggerImg.addEventListener('click', function(){
-
-            window.open(driveImage(this._imagenProblema) , '_blank');
-
-        });
 
         problemTrigger.appendChild(problemTriggerImg);
 
