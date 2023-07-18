@@ -1351,7 +1351,7 @@ class Actividad{
         modalManualImg.setAttribute("src", "/assets/img/modal/manual.png");
         modalManualImg.setAttribute("alt", "Consultar manual");
         modalManualImg.setAttribute("title", "Consultar manual");
-        modalManualImg.setAttribute("onclick", "");
+        modalManualImg.setAttribute("onclick", "window.open(" + this._manual + ",'_blank')");
         modalHeaderContent.appendChild(modalManualImg);
 
         const modalContent = document.getElementById("modal-content");
