@@ -41,6 +41,7 @@ function emptyModal(){
     document.getElementById("modal-content").innerHTML = '';
     document.getElementById("modal-footer").innerHTML = '';
     document.getElementById("canvas-container").style.display = 'none';
+    document.getElementById("problem-container").style.display = 'none';
 }
 
 function closeModal(){
